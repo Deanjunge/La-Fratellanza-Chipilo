@@ -15,169 +15,37 @@
       --muted: #a9b0a7;
       --border: #343d33;
     }
-
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-    }
-
-    header {
-      padding: 34px 20px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-      background: #171c17;
-    }
-
-    .crest {
-      color: var(--gold);
-      font-size: 12px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 14px 0 8px;
-      font-family: Georgia, serif;
-      font-size: clamp(27px, 5vw, 44px);
-      letter-spacing: 1px;
-    }
-
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: Arial, sans-serif; }
+    header { padding: 34px 20px; text-align: center; border-bottom: 1px solid var(--border); background: #171c17; }
+    .crest { color: var(--gold); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; }
+    h1 { margin: 14px 0 8px; font-family: Georgia, serif; font-size: clamp(27px, 5vw, 44px); letter-spacing: 1px; }
     h1 span { color: var(--gold); }
-
-    header p, .muted {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    main {
-      width: min(1100px, 92%);
-      margin: 32px auto;
-    }
-
-    .section-title {
-      font-family: Georgia, serif;
-      font-size: 25px;
-      margin-bottom: 8px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 300px;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .card, .cart {
-      border: 1px solid var(--border);
-      background: var(--panel);
-      border-radius: 12px;
-      padding: 18px;
-    }
-
-    .item-mark {
-      color: var(--gold);
-      font-size: 11px;
-      letter-spacing: 2px;
-      margin-bottom: 14px;
-    }
-
+    header p, .muted { color: var(--muted); line-height: 1.6; }
+    main { width: min(1100px, 92%); margin: 32px auto; }
+    .section-title { font-family: Georgia, serif; font-size: 25px; margin-bottom: 8px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; align-items: start; }
+    .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .card, .cart { border: 1px solid var(--border); background: var(--panel); border-radius: 12px; padding: 18px; }
+    .item-mark { color: var(--gold); font-size: 11px; letter-spacing: 2px; margin-bottom: 14px; }
     .card h3 { margin: 0 0 9px; }
-
-    .price {
-      color: var(--gold);
-      font-size: 13px;
-      margin: 14px 0;
-    }
-
-    button, select {
-      font: inherit;
-      border-radius: 7px;
-      padding: 11px 13px;
-    }
-
-    button {
-      cursor: pointer;
-      border: 1px solid var(--gold);
-      background: var(--gold);
-      color: #151710;
-      font-weight: bold;
-    }
-
-    button:hover { filter: brightness(1.08); }
-
-    button:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-    }
-
+    .price { color: var(--gold); font-size: 13px; margin: 14px 0; }
+    button, select, input, textarea { font: inherit; border-radius: 7px; padding: 11px 13px; }
+    button { cursor: pointer; border: 1px solid var(--gold); background: var(--gold); color: #151710; font-weight: bold; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
     .add { width: 100%; }
-
     .cart { position: sticky; top: 16px; }
-
-    .cart h2 {
-      margin-top: 0;
-      font-family: Georgia, serif;
-    }
-
-    .cart-row {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .cart h2 { margin-top: 0; font-family: Georgia, serif; }
+    .cart-row { padding: 12px 0; border-bottom: 1px solid var(--border); }
     .cart-row strong { display: block; margin-bottom: 7px; }
-
-    .quantity {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
+    .quantity { display: flex; gap: 10px; align-items: center; }
     .quantity button { padding: 5px 10px; }
-
-    label {
-      display: block;
-      font-size: 13px;
-      margin: 18px 0 7px;
-      color: var(--muted);
-    }
-
-    select {
-      width: 100%;
-      background: #101310;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .total {
-      margin: 18px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .notice {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      border-top: 1px solid var(--border);
-      padding: 24px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
+    label { display: block; font-size: 13px; margin: 18px 0 7px; color: var(--muted); }
+    select, input, textarea { width: 100%; background: #101310; color: var(--text); border: 1px solid var(--border); }
+    .total { margin: 18px 0; font-size: 14px; line-height: 1.6; }
+    .notice { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    #message { margin-top: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+    footer { text-align: center; border-top: 1px solid var(--border); padding: 24px; color: var(--muted); font-size: 12px; }
     @media (max-width: 760px) {
       .layout { grid-template-columns: 1fr; }
       .products { grid-template-columns: 1fr; }
@@ -194,20 +62,16 @@
 
   <main>
     <div class="section-title">Unser Sortiment</div>
-    <p class="muted">
-      Wähle deine Artikel und lege sie in den Warenkorb.
-      Die aktuellen Preise und Bestände werden nach der Verbindung
-      mit unserer Verwaltung automatisch geladen.
-    </p>
+    <p class="muted">Artikel, Preise und Bestände werden aus der Familienverwaltung geladen.</p>
 
     <div class="layout">
-      <section class="products" id="products"></section>
+      <section class="products" id="products">
+        <p class="muted">Artikel werden geladen ...</p>
+      </section>
 
       <aside class="cart">
         <h2>Dein Warenkorb</h2>
-        <div id="cart-items" class="muted">
-          Dein Warenkorb ist noch leer.
-        </div>
+        <div id="cart-items" class="muted">Dein Warenkorb ist noch leer.</div>
 
         <label for="payment">Zahlungsart</label>
         <select id="payment">
@@ -215,81 +79,136 @@
           <option value="Schwarzgeld">Schwarzgeld</option>
         </select>
 
-        <div class="total" id="total">
-          Gesamtbetrag: wird nach der Verbindung berechnet
-        </div>
+        <label for="family">Familie / Besteller</label>
+        <input id="family" maxlength="100" placeholder="Name eingeben">
 
-        <button class="add" id="checkout">
-          Bestellung absenden
-        </button>
+        <label for="note">Anmerkung (optional)</label>
+        <textarea id="note" maxlength="500" rows="2" placeholder="Zusätzliche Hinweise"></textarea>
 
-        <p class="notice">
-          Die Bestellfunktion wird aktiviert, sobald die sichere
-          Verbindung zur Bestellverwaltung eingerichtet ist.
-        </p>
+        <div class="total" id="total">Gesamtbetrag: 0</div>
+        <button class="add" id="checkout" disabled>Bestellung absenden</button>
+        <div id="message" role="status" aria-live="polite"></div>
+        <p class="notice">Bitte prüfe deine Bestellung vor dem Absenden. Erfolgreiche Bestellungen werden in der Verwaltung eingetragen.</p>
       </aside>
     </div>
   </main>
 
-  <footer>
-    LA FRATELLANZA CHIPILO · Interner Familienshop
-  </footer>
+  <footer>LA FRATELLANZA CHIPILO · Interner Familienshop</footer>
 
   <script>
-    const products = [
-      { id: "MAG01", name: "Erweitertes Magazin" },
-      { id: "TAS01", name: "Taschenlampe" },
-      { id: "SCH01", name: "Schalldämpfer" },
-      { id: "GRI01", name: "Griff" },
-      { id: "ZIE01", name: "Zielfernrohr" },
-      { id: "KOM01", name: "Kompensator" },
-      { id: "HOL01", name: "HoloVisier" }
-    ];
+    const API_URL = "https://script.google.com/macros/s/AKfycbwsowEKHVNPJM6cZyVE-sP4BuIL-7eTQJacI07iebNr-znvHJE9juaRy2XArStOIf9wJA/exec";
 
+    let products = [];
     const cart = {};
 
+    const productContainer = document.getElementById("products");
+    const cartContainer = document.getElementById("cart-items");
+    const totalContainer = document.getElementById("total");
+    const checkoutButton = document.getElementById("checkout");
+    const message = document.getElementById("message");
+
+    function money(value) {
+      return Number(value).toLocaleString("de-DE", {
+        maximumFractionDigits: 2
+      });
+    }
+
+    function currentPrice(product) {
+      return document.getElementById("payment").value === "Schwarzgeld"
+        ? product.blackPrice
+        : product.greenPrice;
+    }
+
     function renderProducts() {
-      document.getElementById("products").innerHTML =
-        products.map(product => `
+      if (!products.length) {
+        productContainer.innerHTML = '<p class="muted">Aktuell sind keine aktiven Artikel vorhanden.</p>';
+        return;
+      }
+
+      productContainer.innerHTML = products.map(product => {
+        const stock = Number(product.stock);
+        const price = currentPrice(product);
+        const available = Number.isFinite(stock) && stock > 0 &&
+          Number.isFinite(price) && price >= 0;
+
+        return `
           <article class="card">
-            <div class="item-mark">${product.id}</div>
-            <h3>${product.name}</h3>
-            <div class="muted">Preis und Bestand folgen</div>
-            <div class="price">Preis wird noch geladen</div>
-            <button class="add" data-add="${product.id}">
-              In den Warenkorb
+            <div class="item-mark">${escapeHtml(product.id)}</div>
+            <h3>${escapeHtml(product.name)}</h3>
+            <div class="muted">Verfügbarer Bestand: ${Number.isFinite(stock) ? stock : 0}</div>
+            <div class="price">${money(price)} pro Stück</div>
+            <button class="add" data-add="${escapeHtml(product.id)}"
+              ${available ? "" : "disabled"}>
+              ${available ? "In den Warenkorb" : "Nicht verfügbar"}
             </button>
           </article>
-        `).join("");
+        `;
+      }).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
     }
 
     function renderCart() {
       const entries = Object.entries(cart);
-      const container = document.getElementById("cart-items");
+      let total = 0;
 
-      if (entries.length === 0) {
-        container.textContent = "Dein Warenkorb ist noch leer.";
+      if (!entries.length) {
+        cartContainer.textContent = "Dein Warenkorb ist noch leer.";
       } else {
-        container.innerHTML = entries.map(([id, quantity]) => {
+        cartContainer.innerHTML = entries.map(([id, quantity]) => {
           const product = products.find(item => item.id === id);
+          if (!product) return "";
+          const subtotal = currentPrice(product) * quantity;
+          total += subtotal;
+
           return `
             <div class="cart-row">
-              <strong>${product.name}</strong>
+              <strong>${escapeHtml(product.name)}</strong>
+              <div class="muted">${money(currentPrice(product))} pro Stück</div>
               <div class="quantity">
-                <button data-change="${id}" data-delta="-1">−</button>
+                <button data-change="${escapeHtml(id)}" data-delta="-1" aria-label="Menge verringern">−</button>
                 <span>${quantity} Stück</span>
-                <button data-change="${id}" data-delta="1">+</button>
+                <button data-change="${escapeHtml(id)}" data-delta="1" aria-label="Menge erhöhen">+</button>
               </div>
+              <div class="price">Zwischensumme: ${money(subtotal)}</div>
             </div>
           `;
         }).join("");
       }
 
-      document.getElementById("total").textContent =
-        "Gesamtbetrag: wird nach der Verbindung berechnet";
+      totalContainer.textContent = "Gesamtbetrag: " + money(total);
+      checkoutButton.disabled = entries.length === 0;
+    }
 
-      document.getElementById("checkout").disabled =
-        entries.length === 0;
+    async function loadProducts() {
+      message.textContent = "";
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error("Die Verwaltung ist gerade nicht erreichbar.");
+
+        const data = await response.json();
+        if (!data.success || !Array.isArray(data.products)) {
+          throw new Error(data.error || "Die Artikelliste konnte nicht geladen werden.");
+        }
+
+        products = data.products;
+        renderProducts();
+        renderCart();
+      } catch (error) {
+        productContainer.innerHTML =
+          '<p class="muted">Die Artikelliste konnte nicht geladen werden. Bitte lade die Seite neu.</p>';
+        message.textContent = error.message +
+          " Falls der Fehler bleibt, prüfen wir die Verbindungseinstellungen.";
+        checkoutButton.disabled = true;
+      }
     }
 
     document.addEventListener("click", event => {
@@ -297,26 +216,84 @@
       const changeId = event.target.dataset.change;
 
       if (addId) {
-        cart[addId] = (cart[addId] || 0) + 1;
+        const product = products.find(item => item.id === addId);
+        if (!product) return;
+
+        const currentQty = cart[addId] || 0;
+        if (currentQty + 1 > Number(product.stock)) {
+          message.textContent = "Der Bestand reicht für diese Menge nicht aus.";
+          return;
+        }
+
+        cart[addId] = currentQty + 1;
+        message.textContent = "";
         renderCart();
       }
 
       if (changeId) {
-        cart[changeId] += Number(event.target.dataset.delta);
-        if (cart[changeId] <= 0) delete cart[changeId];
+        const product = products.find(item => item.id === changeId);
+        const nextQty = (cart[changeId] || 0) + Number(event.target.dataset.delta);
+
+        if (nextQty <= 0) {
+          delete cart[changeId];
+        } else if (product && nextQty <= Number(product.stock)) {
+          cart[changeId] = nextQty;
+        } else {
+          message.textContent = "Der Bestand reicht für diese Menge nicht aus.";
+        }
+
         renderCart();
       }
     });
 
-    document.getElementById("checkout").addEventListener("click", () => {
-      alert(
-        "Die Bestellübermittlung ist noch nicht eingerichtet. " +
-        "Im nächsten Schritt verbinden wir den Shop mit der Verwaltung."
-      );
+    document.getElementById("payment").addEventListener("change", () => {
+      renderProducts();
+      renderCart();
     });
 
-    renderProducts();
-    renderCart();
+    checkoutButton.addEventListener("click", async () => {
+      if (!Object.keys(cart).length) return;
+
+      checkoutButton.disabled = true;
+      message.textContent = "Bestellung wird übermittelt ...";
+
+      const payload = {
+        paymentMethod: document.getElementById("payment").value,
+        family: document.getElementById("family").value.trim() || "La Fratellanza Chipilo",
+        note: document.getElementById("note").value.trim(),
+        items: Object.entries(cart).map(([id, quantity]) => ({
+          id: id,
+          quantity: quantity
+        }))
+      };
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+          throw new Error(result.error || "Die Bestellung wurde nicht angenommen.");
+        }
+
+        message.textContent = "Bestellung erfolgreich! Bestellnummer: " +
+          result.orderNumber + " · Gesamtbetrag: " + money(result.total);
+
+        Object.keys(cart).forEach(id => delete cart[id]);
+        document.getElementById("note").value = "";
+        await loadProducts();
+        renderCart();
+      } catch (error) {
+        message.textContent = "Die Bestellung konnte nicht sicher bestätigt werden: " +
+          error.message + " Bitte prüfe die Verwaltung, bevor du erneut absendest.";
+      } finally {
+        checkoutButton.disabled = Object.keys(cart).length === 0;
+      }
+    });
+
+    loadProducts();
   </script>
 </body>
 </html>
