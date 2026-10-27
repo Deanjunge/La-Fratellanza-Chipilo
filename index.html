@@ -95,205 +95,198 @@
 
   <footer>LA FRATELLANZA CHIPILO · Interner Familienshop</footer>
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwsowEKHVNPJM6cZyVE-sP4BuIL-7eTQJacI07iebNr-znvHJE9juaRy2XArStOIf9wJA/exec";
+ 
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwsowEKHVNPJM6cZyVE-sP4BuIL-7eTQJacI07iebNr-znvHJE9juaRy2XArStOIf9wJA/exec";
 
-    let products = [];
-    const cart = {};
+let products = [];
+const cart = {};
 
-    const productContainer = document.getElementById("products");
-    const cartContainer = document.getElementById("cart-items");
-    const totalContainer = document.getElementById("total");
-    const checkoutButton = document.getElementById("checkout");
-    const message = document.getElementById("message");
+const productContainer = document.getElementById("products");
+const cartContainer = document.getElementById("cart-items");
+const totalContainer = document.getElementById("total");
+const checkoutButton = document.getElementById("checkout");
+const message = document.getElementById("message");
 
-    function money(value) {
-      return Number(value).toLocaleString("de-DE", {
-        maximumFractionDigits: 2
-      });
+function money(value) {
+  return Number(value).toLocaleString("de-DE", {
+    maximumFractionDigits: 2
+  });
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function currentPrice(product) {
+  return document.getElementById("payment").value === "Schwarzgeld"
+    ? product.blackPrice
+    : product.greenPrice;
+}
+
+function renderProducts() {
+  if (!products.length) {
+    productContainer.innerHTML =
+      '<p class="muted">Keine aktiven Artikel gefunden.</p>';
+    return;
+  }
+
+  productContainer.innerHTML = products.map(product => {
+    const price = currentPrice(product);
+    const stock = Number(product.stock);
+
+    return `
+      <article class="card">
+        <div class="item-mark">${escapeHtml(product.id)}</div>
+        <h3>${escapeHtml(product.name)}</h3>
+        <div class="muted">
+          Bestand: ${Number.isFinite(stock) ? stock : 0}
+        </div>
+        <div class="price">${money(price)} pro Stück</div>
+        <button class="add" data-add="${escapeHtml(product.id)}"
+          ${Number.isFinite(price) && price >= 0 ? "" : "disabled"}>
+          In den Warenkorb
+        </button>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderCart() {
+  const entries = Object.entries(cart);
+  let total = 0;
+
+  if (!entries.length) {
+    cartContainer.textContent = "Dein Warenkorb ist noch leer.";
+  } else {
+    cartContainer.innerHTML = entries.map(([id, quantity]) => {
+      const product = products.find(item => item.id === id);
+      if (!product) return "";
+
+      const subtotal = currentPrice(product) * quantity;
+      total += subtotal;
+
+      return `
+        <div class="cart-row">
+          <strong>${escapeHtml(product.name)}</strong>
+          <div class="muted">${money(currentPrice(product))} pro Stück</div>
+          <div class="quantity">
+            <button data-change="${escapeHtml(id)}" data-delta="-1">−</button>
+            <span>${quantity} Stück</span>
+            <button data-change="${escapeHtml(id)}" data-delta="1">+</button>
+          </div>
+          <div class="price">Zwischensumme: ${money(subtotal)}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  totalContainer.textContent = "Gesamtbetrag: " + money(total);
+  checkoutButton.disabled = entries.length === 0;
+}
+
+async function loadProducts() {
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Verbindung fehlgeschlagen.");
+
+    const data = await response.json();
+    if (!data.success || !Array.isArray(data.products)) {
+      throw new Error(data.error || "Artikel konnten nicht geladen werden.");
     }
 
-    function currentPrice(product) {
-      return document.getElementById("payment").value === "Schwarzgeld"
-        ? product.blackPrice
-        : product.greenPrice;
+    products = data.products;
+    renderProducts();
+    renderCart();
+  } catch (error) {
+    productContainer.innerHTML =
+      '<p class="muted">Artikel konnten nicht geladen werden. Bitte Seite neu laden.</p>';
+    message.textContent = error.message;
+    checkoutButton.disabled = true;
+  }
+}
+
+document.addEventListener("click", event => {
+  const addId = event.target.dataset.add;
+  const changeId = event.target.dataset.change;
+
+  if (addId) {
+    const product = products.find(item => item.id === addId);
+    if (!product) return;
+
+    cart[addId] = (cart[addId] || 0) + 1;
+    message.textContent = "";
+    renderCart();
+  }
+
+  if (changeId) {
+    const nextQty =
+      (cart[changeId] || 0) + Number(event.target.dataset.delta);
+
+    if (nextQty <= 0) {
+      delete cart[changeId];
+    } else {
+      cart[changeId] = nextQty;
     }
 
-    function renderProducts() {
-      if (!products.length) {
-        productContainer.innerHTML = '<p class="muted">Aktuell sind keine aktiven Artikel vorhanden.</p>';
-        return;
-      }
+    renderCart();
+  }
+});
 
-      productContainer.innerHTML = products.map(product => {
-        const stock = Number(product.stock);
-        const price = currentPrice(product);
-        const available = Number.isFinite(stock) && stock > 0 &&
-          Number.isFinite(price) && price >= 0;
+document.getElementById("payment").addEventListener("change", () => {
+  renderProducts();
+  renderCart();
+});
 
-        return `
-          <article class="card">
-            <div class="item-mark">${escapeHtml(product.id)}</div>
-            <h3>${escapeHtml(product.name)}</h3>
-            <div class="muted">Verfügbarer Bestand: ${Number.isFinite(stock) ? stock : 0}</div>
-            <div class="price">${money(price)} pro Stück</div>
-            <button class="add" data-add="${escapeHtml(product.id)}"
-              ${available ? "" : "disabled"}>
-              ${available ? "In den Warenkorb" : "Nicht verfügbar"}
-            </button>
-          </article>
-        `;
-      }).join("");
-    }
+checkoutButton.addEventListener("click", async () => {
+  if (!Object.keys(cart).length) return;
 
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[char]);
-    }
+  checkoutButton.disabled = true;
+  message.textContent = "Bestellung wird übermittelt ...";
 
-    function renderCart() {
-      const entries = Object.entries(cart);
-      let total = 0;
+  const payload = {
+    paymentMethod: document.getElementById("payment").value,
+    family: document.getElementById("family").value.trim()
+      || "La Fratellanza Chipilo",
+    note: document.getElementById("note").value.trim(),
+    items: Object.entries(cart).map(([id, quantity]) => ({
+      id,
+      quantity
+    }))
+  };
 
-      if (!entries.length) {
-        cartContainer.textContent = "Dein Warenkorb ist noch leer.";
-      } else {
-        cartContainer.innerHTML = entries.map(([id, quantity]) => {
-          const product = products.find(item => item.id === id);
-          if (!product) return "";
-          const subtotal = currentPrice(product) * quantity;
-          total += subtotal;
-
-          return `
-            <div class="cart-row">
-              <strong>${escapeHtml(product.name)}</strong>
-              <div class="muted">${money(currentPrice(product))} pro Stück</div>
-              <div class="quantity">
-                <button data-change="${escapeHtml(id)}" data-delta="-1" aria-label="Menge verringern">−</button>
-                <span>${quantity} Stück</span>
-                <button data-change="${escapeHtml(id)}" data-delta="1" aria-label="Menge erhöhen">+</button>
-              </div>
-              <div class="price">Zwischensumme: ${money(subtotal)}</div>
-            </div>
-          `;
-        }).join("");
-      }
-
-      totalContainer.textContent = "Gesamtbetrag: " + money(total);
-      checkoutButton.disabled = entries.length === 0;
-    }
-
-    async function loadProducts() {
-      message.textContent = "";
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Die Verwaltung ist gerade nicht erreichbar.");
-
-        const data = await response.json();
-        if (!data.success || !Array.isArray(data.products)) {
-          throw new Error(data.error || "Die Artikelliste konnte nicht geladen werden.");
-        }
-
-        products = data.products;
-        renderProducts();
-        renderCart();
-      } catch (error) {
-        productContainer.innerHTML =
-          '<p class="muted">Die Artikelliste konnte nicht geladen werden. Bitte lade die Seite neu.</p>';
-        message.textContent = error.message +
-          " Falls der Fehler bleibt, prüfen wir die Verbindungseinstellungen.";
-        checkoutButton.disabled = true;
-      }
-    }
-
-    document.addEventListener("click", event => {
-      const addId = event.target.dataset.add;
-      const changeId = event.target.dataset.change;
-
-      if (addId) {
-        const product = products.find(item => item.id === addId);
-        if (!product) return;
-
-        const currentQty = cart[addId] || 0;
-        if (currentQty + 1 > Number(product.stock)) {
-          message.textContent = "Der Bestand reicht für diese Menge nicht aus.";
-          return;
-        }
-
-        cart[addId] = currentQty + 1;
-        message.textContent = "";
-        renderCart();
-      }
-
-      if (changeId) {
-        const product = products.find(item => item.id === changeId);
-        const nextQty = (cart[changeId] || 0) + Number(event.target.dataset.delta);
-
-        if (nextQty <= 0) {
-          delete cart[changeId];
-        } else if (product && nextQty <= Number(product.stock)) {
-          cart[changeId] = nextQty;
-        } else {
-          message.textContent = "Der Bestand reicht für diese Menge nicht aus.";
-        }
-
-        renderCart();
-      }
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
     });
 
-    document.getElementById("payment").addEventListener("change", () => {
-      renderProducts();
-      renderCart();
-    });
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.error || "Bestellung wurde abgelehnt.");
+    }
 
-    checkoutButton.addEventListener("click", async () => {
-      if (!Object.keys(cart).length) return;
+    message.textContent =
+      "Bestellung erfolgreich! Nummer: " + result.orderNumber;
 
-      checkoutButton.disabled = true;
-      message.textContent = "Bestellung wird übermittelt ...";
+    Object.keys(cart).forEach(id => delete cart[id]);
+    await loadProducts();
+    renderCart();
+  } catch (error) {
+    message.textContent =
+      "Bestellung nicht bestätigt: " + error.message;
+  } finally {
+    checkoutButton.disabled = Object.keys(cart).length === 0;
+  }
+});
 
-      const payload = {
-        paymentMethod: document.getElementById("payment").value,
-        family: document.getElementById("family").value.trim() || "La Fratellanza Chipilo",
-        note: document.getElementById("note").value.trim(),
-        items: Object.entries(cart).map(([id, quantity]) => ({
-          id: id,
-          quantity: quantity
-        }))
-      };
-
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-        if (!result.success) {
-          throw new Error(result.error || "Die Bestellung wurde nicht angenommen.");
-        }
-
-        message.textContent = "Bestellung erfolgreich! Bestellnummer: " +
-          result.orderNumber + " · Gesamtbetrag: " + money(result.total);
-
-        Object.keys(cart).forEach(id => delete cart[id]);
-        document.getElementById("note").value = "";
-        await loadProducts();
-        renderCart();
-      } catch (error) {
-        message.textContent = "Die Bestellung konnte nicht sicher bestätigt werden: " +
-          error.message + " Bitte prüfe die Verwaltung, bevor du erneut absendest.";
-      } finally {
-        checkoutButton.disabled = Object.keys(cart).length === 0;
-      }
-    });
-
-    loadProducts();
-  </script>
+loadProducts();
+</script>
 </body>
 </html>
