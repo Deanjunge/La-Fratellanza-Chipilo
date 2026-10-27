@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Fratellanza Chipilo | Familienshop</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101310;
+      --panel: #1a201b;
+      --gold: #c7a45b;
+      --text: #f3f0e7;
+      --muted: #a9b0a7;
+      --border: #343d33;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 34px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: #171c17;
+    }
+
+    .crest {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 8px;
+      font-family: Georgia, serif;
+      font-size: clamp(27px, 5vw, 44px);
+      letter-spacing: 1px;
+    }
+
+    h1 span { color: var(--gold); }
+
+    header p, .muted {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 32px auto;
+    }
+
+    .section-title {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card, .cart {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .item-mark {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 { margin: 0 0 9px; }
+
+    .price {
+      color: var(--gold);
+      font-size: 13px;
+      margin: 14px 0;
+    }
+
+    button, select {
+      font: inherit;
+      border-radius: 7px;
+      padding: 11px 13px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--gold);
+      background: var(--gold);
+      color: #151710;
+      font-weight: bold;
+    }
+
+    button:hover { filter: brightness(1.08); }
+
+    button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .add { width: 100%; }
+
+    .cart { position: sticky; top: 16px; }
+
+    .cart h2 {
+      margin-top: 0;
+      font-family: Georgia, serif;
+    }
+
+    .cart-row {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-row strong { display: block; margin-bottom: 7px; }
+
+    .quantity {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .quantity button { padding: 5px 10px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin: 18px 0 7px;
+      color: var(--muted);
+    }
+
+    select {
+      width: 100%;
+      background: #101310;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .total {
+      margin: 18px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .notice {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .layout { grid-template-columns: 1fr; }
+      .products { grid-template-columns: 1fr; }
+      .cart { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="crest">Famiglia · Lealtà · Onore</div>
+    <h1>LA FRATELLANZA <span>CHIPILO</span></h1>
+    <p>Willkommen im internen Familienshop.</p>
+  </header>
+
+  <main>
+    <div class="section-title">Unser Sortiment</div>
+    <p class="muted">
+      Wähle deine Artikel und lege sie in den Warenkorb.
+      Die aktuellen Preise und Bestände werden nach der Verbindung
+      mit unserer Verwaltung automatisch geladen.
+    </p>
+
+    <div class="layout">
+      <section class="products" id="products"></section>
+
+      <aside class="cart">
+        <h2>Dein Warenkorb</h2>
+        <div id="cart-items" class="muted">
+          Dein Warenkorb ist noch leer.
+        </div>
+
+        <label for="payment">Zahlungsart</label>
+        <select id="payment">
+          <option value="Grünes Geld">Grünes Geld</option>
+          <option value="Schwarzgeld">Schwarzgeld</option>
+        </select>
+
+        <div class="total" id="total">
+          Gesamtbetrag: wird nach der Verbindung berechnet
+        </div>
+
+        <button class="add" id="checkout">
+          Bestellung absenden
+        </button>
+
+        <p class="notice">
+          Die Bestellfunktion wird aktiviert, sobald die sichere
+          Verbindung zur Bestellverwaltung eingerichtet ist.
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    LA FRATELLANZA CHIPILO · Interner Familienshop
+  </footer>
+
+  <script>
+    const products = [
+      { id: "MAG01", name: "Erweitertes Magazin" },
+      { id: "TAS01", name: "Taschenlampe" },
+      { id: "SCH01", name: "Schalldämpfer" },
+      { id: "GRI01", name: "Griff" },
+      { id: "ZIE01", name: "Zielfernrohr" },
+      { id: "KOM01", name: "Kompensator" },
+      { id: "HOL01", name: "HoloVisier" }
+    ];
+
+    const cart = {};
+
+    function renderProducts() {
+      document.getElementById("products").innerHTML =
+        products.map(product => `
+          <article class="card">
+            <div class="item-mark">${product.id}</div>
+            <h3>${product.name}</h3>
+            <div class="muted">Preis und Bestand folgen</div>
+            <div class="price">Preis wird noch geladen</div>
+            <button class="add" data-add="${product.id}">
+              In den Warenkorb
+            </button>
+          </article>
+        `).join("");
+    }
+
+    function renderCart() {
+      const entries = Object.entries(cart);
+      const container = document.getElementById("cart-items");
+
+      if (entries.length === 0) {
+        container.textContent = "Dein Warenkorb ist noch leer.";
+      } else {
+        container.innerHTML = entries.map(([id, quantity]) => {
+          const product = products.find(item => item.id === id);
+          return `
+            <div class="cart-row">
+              <strong>${product.name}</strong>
+              <div class="quantity">
+                <button data-change="${id}" data-delta="-1">−</button>
+                <span>${quantity} Stück</span>
+                <button data-change="${id}" data-delta="1">+</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      document.getElementById("total").textContent =
+        "Gesamtbetrag: wird nach der Verbindung berechnet";
+
+      document.getElementById("checkout").disabled =
+        entries.length === 0;
+    }
+
+    document.addEventListener("click", event => {
+      const addId = event.target.dataset.add;
+      const changeId = event.target.dataset.change;
+
+      if (addId) {
+        cart[addId] = (cart[addId] || 0) + 1;
+        renderCart();
+      }
+
+      if (changeId) {
+        cart[changeId] += Number(event.target.dataset.delta);
+        if (cart[changeId] <= 0) delete cart[changeId];
+        renderCart();
+      }
+    });
+
+    document.getElementById("checkout").addEventListener("click", () => {
+      alert(
+        "Die Bestellübermittlung ist noch nicht eingerichtet. " +
+        "Im nächsten Schritt verbinden wir den Shop mit der Verwaltung."
+      );
+    });
+
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
